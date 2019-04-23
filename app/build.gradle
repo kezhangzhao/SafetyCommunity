@@ -1,0 +1,174 @@
+apply plugin: 'com.android.application'
+File signPropertiesFile = file('jks/safety.properties')
+
+android {
+    compileSdkVersion rootProject.ext.compile_sdk_version
+    defaultConfig {
+        applicationId "com.bit.safetycommunity"
+        minSdkVersion rootProject.ext.min_sdk_version
+        targetSdkVersion rootProject.ext.target_sdk_version
+        versionCode rootProject.ext.version_code
+        versionName rootProject.ext.version_name
+        flavorDimensions 'bit'
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            // 设置支持的SO库架构
+            abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        }
+//        multiDexEnabled true
+//        multiDexKeepProguard file('multiDexKeep.pro')
+//        multiDexKeepFile file('multiDexKeep.txt')
+    }
+
+    //签名
+    if (signPropertiesFile.exists()) {
+        Properties properties = new Properties()
+        properties.load(new FileInputStream(signPropertiesFile))
+        signingConfigs {
+            release {
+                storeFile file(properties['keystore'])
+                storePassword properties['storePassword']
+                keyAlias properties['keyAlias']
+                keyPassword properties['keyPassword']
+            }
+            debug {
+                storeFile file(properties['keystore'])
+                storePassword properties['storePassword']
+                keyAlias properties['keyAlias']
+                keyPassword properties['keyPassword']
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            //Zipalign优化
+            zipAlignEnabled true
+            //混淆
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (signPropertiesFile.exists()) {
+                signingConfig signingConfigs.release
+            }
+        }
+        debug {
+            //Zipalign优化
+            zipAlignEnabled true
+            //混淆
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (signPropertiesFile.exists()) {
+                signingConfig signingConfigs.debug
+            }
+        }
+    }
+
+    //渠道配置
+    productFlavors {
+        // 开发环境
+        bitDevelop {
+            manifestPlaceholders = [JPUSH_PKGNAME: "com.bit.elevator",//极光包名
+                                    JPUSH_APPKEY : "95f0c915a3047e7e28c4dfbb", //JPush上注册的包名对应的appkey.
+                                    JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
+                                    GAODE_APPKEY : "b5383a6ef3d0984f48f80800e3d12db5"
+            ]
+            buildConfigField "String", "BASEAPI_SERVER_URL", DEVELOP_BIT_BASEAPI_SERVER_URL
+        }
+        // 测试环境
+        bitTest {
+            manifestPlaceholders = [JPUSH_PKGNAME: "com.bit.elevator",//极光包名
+                                    JPUSH_APPKEY : "95f0c915a3047e7e28c4dfbb", //JPush上注册的包名对应的appkey.
+                                    JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
+                                    GAODE_APPKEY : "b5383a6ef3d0984f48f80800e3d12db5"//高德地图
+            ]
+            buildConfigField "String", "BASEAPI_SERVER_URL", TEST_BIT_BASEAPI_SERVER_URL
+        }
+
+        yingyongbao {
+            manifestPlaceholders = [JPUSH_PKGNAME: "com.bit.elevator",//极光包名
+                                    JPUSH_APPKEY : "95f0c915a3047e7e28c4dfbb", //JPush上注册的包名对应的appkey.
+                                    JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
+                                    GAODE_APPKEY : "b5383a6ef3d0984f48f80800e3d12db5"//高德地图
+            ]
+            buildConfigField "String", "BASEAPI_SERVER_URL", RELEASE_BIT_BASEAPI_SERVER_URL
+        }
+    }
+
+    //打包命名
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def newName
+            def timeNow
+            timeNow = getDate()
+            if (variant.buildType.name == 'debug') {
+                newName = "SafetyCommunity_v${rootProject.ext.version_name}_debug.apk"
+            } else {
+                newName = 'SafetyCommunity_v' +
+                        rootProject.ext.version_name + '_' + timeNow + '_' + variant.productFlavors[0].name + '_' + variant.buildType.name + '.apk'
+            }
+//            def outputFile = output.outputFile
+//            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+            outputFileName = newName
+//            }
+        }
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+//获得时间
+static def getDate() {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMdd')
+    return formattedDate
+}
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "com.android.support:appcompat-v7:$support_version"
+    implementation "com.android.support:recyclerview-v7:$support_version"
+    implementation "com.android.support:design:$support_version"
+    implementation "com.alibaba:fastjson:$fastjson_version"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    //权限请求
+    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.7'
+    //分包依赖
+//    implementation 'com.android.support:multidex:1.0.3'
+
+    //网络框架http://www.yanzhenjie.com/Kalle/
+    implementation 'com.yanzhenjie:okalle:0.1.3'
+    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+    implementation "com.squareup.okio:okio:$okio_version"
+    implementation 'jp.wasabeef:glide-transformations:3.1.1'
+
+    implementation "com.jakewharton:butterknife:$butterknife_version"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife_version"
+
+    implementation 'com.github.kezhangzhao:BottomBarView:1.0.0'
+    implementation 'com.github.kezhangzhao:CommonAdapter:1.0.2'
+//    implementation 'com.github.kezhangzhao:StarsView:1.0.1'
+    implementation 'com.github.kezhangzhao:Dialog:1.0.3'
+
+    //工具类
+    implementation 'com.blankj:utilcode:1.15.1'
+    //EventBus
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    //广告轮播
+//    implementation 'com.youth.banner:banner:1.4.10'
+    //图片加载glide
+//    implementation 'com.github.bumptech.glide:glide:4.8.0'
+//    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+
+}

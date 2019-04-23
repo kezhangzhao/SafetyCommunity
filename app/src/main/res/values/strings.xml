@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">平安社区</string>
+    <string name="main_check_update_app_err">找不到版本号</string>
+</resources>
