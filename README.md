@@ -15,6 +15,6 @@ android项目基础框架
 * 打包apk的方式：可以在Android studio中的Terminal中输入命令行：gradlew assembleyingyongbaoRelease；
 根据需求可以选择打包自己需要的环境：yingyongbao是渠道（应用宝，也可以配置其他），release是模式（正式模式，还有debug模式）
 # 图片
-![](https://github.com/kezhangzhao/BottomBarView/raw/master/screenshot/1.png)  
+![](https://github.com/kezhangzhao/SafetyCommunity/blob/master/screenshot/001.png)  
 
  
