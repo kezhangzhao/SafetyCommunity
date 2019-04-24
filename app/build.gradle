@@ -68,7 +68,7 @@ android {
         // 开发环境
         bitDevelop {
             manifestPlaceholders = [JPUSH_PKGNAME: "com.bit.elevator",//极光包名
-                                    JPUSH_APPKEY : "95f0c915a3047e7e28c4dfbb", //JPush上注册的包名对应的appkey.
+                                    JPUSH_APPKEY : "95f0c915a3047e7e28c4dfbb", //JPush上注册的包名对应的AppKey.
                                     JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
                                     GAODE_APPKEY : "b5383a6ef3d0984f48f80800e3d12db5"
             ]
@@ -77,7 +77,7 @@ android {
         // 测试环境
         bitTest {
             manifestPlaceholders = [JPUSH_PKGNAME: "com.bit.elevator",//极光包名
-                                    JPUSH_APPKEY : "95f0c915a3047e7e28c4dfbb", //JPush上注册的包名对应的appkey.
+                                    JPUSH_APPKEY : "95f0c915a3047e7e28c4dfbb", //JPush上注册的包名对应的AppKey.
                                     JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
                                     GAODE_APPKEY : "b5383a6ef3d0984f48f80800e3d12db5"//高德地图
             ]
@@ -86,7 +86,7 @@ android {
 
         yingyongbao {
             manifestPlaceholders = [JPUSH_PKGNAME: "com.bit.elevator",//极光包名
-                                    JPUSH_APPKEY : "95f0c915a3047e7e28c4dfbb", //JPush上注册的包名对应的appkey.
+                                    JPUSH_APPKEY : "95f0c915a3047e7e28c4dfbb", //JPush上注册的包名对应的AppKey.
                                     JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
                                     GAODE_APPKEY : "b5383a6ef3d0984f48f80800e3d12db5"//高德地图
             ]
