@@ -92,7 +92,7 @@ public class AppUtils {
     public static boolean install(Context context, String filePath) {
         Intent i = new Intent(Intent.ACTION_VIEW);
         File file = new File(filePath);
-        if (file != null && file.length() > 0 && file.exists() && file.isFile()) {
+        if (file.length() > 0 && file.exists() && file.isFile()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 Uri contentUri = FileProvider.getUriForFile(context, "com.bit.elevator.fileProvider", file);
@@ -121,7 +121,7 @@ public class AppUtils {
         List<PackageInfo> packs = pm.getInstalledPackages(0);
 
         for (PackageInfo pi : packs) {
-            HashMap<String, Object> map = new HashMap<String, Object>();
+            HashMap<String, Object> map = new HashMap<>();
             // 显示用户安装的应用程序，而不显示系统程序
             if ((pi.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0
                     && (pi.applicationInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) == 0) {
@@ -180,7 +180,7 @@ public class AppUtils {
     }
 
     public static boolean checkVersionCode(Context context, String code) {
-        boolean isUpdate = false;
+        boolean isUpdate;
         try {
             for (int i = 0; i < code.length(); i++) {
                 if (!Character.isDigit(code.charAt(i))) {
