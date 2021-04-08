@@ -3,7 +3,6 @@ package com.bit.safetycommunity.app;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
@@ -11,6 +10,8 @@ import com.bit.safetycommunity.utils.FileUtils;
 import com.yanzhenjie.kalle.util.IOUtils;
 
 import java.io.File;
+
+import androidx.annotation.Nullable;
 
 /**
  * 一些配置信息

@@ -10,8 +10,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.FileProvider;
 import android.telephony.TelephonyManager;
 
 import com.bit.safetycommunity.app.SafetyApplication;
@@ -20,6 +18,9 @@ import com.kzz.safetycommunity.R;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 
 
 public class AppUtils {

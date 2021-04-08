@@ -7,10 +7,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.multidex.MultiDex;
-import android.support.v7.app.AppCompatDelegate;
-import android.util.Log;
 
 import com.bit.safetycommunity.bean.ApkInfoBean;
 import com.bit.safetycommunity.manager.UserManager;
@@ -31,6 +27,9 @@ import com.yanzhenjie.kalle.util.MainExecutor;
 import com.yanzhenjie.kalle.util.WorkExecutor;
 
 import java.util.concurrent.TimeUnit;
+
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.multidex.MultiDex;
 
 
 public class SafetyApplication extends Application {
